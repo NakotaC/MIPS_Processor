@@ -3,8 +3,8 @@
 -- Department of Electrical and Computer Engineering
 -- Iowa State University
 -------------------------------------------------------------------------
-
-
+-- Jayson Acosta and Nakota Clark
+--
 -- MIPS_Processor.vhd
 -------------------------------------------------------------------------
 -- DESCRIPTION: This file contains a skeleton of a MIPS_Processor  
@@ -28,7 +28,7 @@ entity MIPS_Processor is
        iInstLd         : in std_logic;
        iInstAddr       : in std_logic_vector(N-1 downto 0);
        iInstExt        : in std_logic_vector(N-1 downto 0);
-       oALUOut         : out std_logic_vector(N-1 downto 0)); -- TODO: Hook this up to the output of the ALU. It is important for synthesis that you have this output that can effectively be impacted by all other components so they are not optimized away.
+       oALUOut         : out std_logic_vector(N-1 downto 0)); -- Hook this up to the output of the ALU. It is important for synthesis that you have this output that can effectively be impacted by all other components so they are not optimized away.
 
 end  MIPS_Processor;
 
@@ -36,20 +36,20 @@ end  MIPS_Processor;
 architecture structure of MIPS_Processor is
 
   -- Required data memory signals
-  signal s_DMemWr       : std_logic; -- TODO: use this signal as the final active high data memory write enable signal
-  signal s_DMemAddr     : std_logic_vector(N-1 downto 0); -- TODO: use this signal as the final data memory address input
-  signal s_DMemData     : std_logic_vector(N-1 downto 0); -- TODO: use this signal as the final data memory data input
-  signal s_DMemOut      : std_logic_vector(N-1 downto 0); -- TODO: use this signal as the data memory output
+  signal s_DMemWr       : std_logic; 
+  signal s_DMemAddr     : std_logic_vector(N-1 downto 0); 
+  signal s_DMemData     : std_logic_vector(N-1 downto 0); 
+  signal s_DMemOut      : std_logic_vector(N-1 downto 0); 
  
   -- Required register file signals 
-  signal s_RegWr        : std_logic; -- TODO: use this signal as the final active high write enable input to the register file
-  signal s_RegWrAddr    : std_logic_vector(4 downto 0); -- TODO: use this signal as the final destination register address input
-  signal s_RegWrData    : std_logic_vector(N-1 downto 0); -- TODO: use this signal as the final data memory data input
+  signal s_RegWr        : std_logic; 
+  signal s_RegWrAddr    : std_logic_vector(4 downto 0); 
+  signal s_RegWrData    : std_logic_vector(N-1 downto 0); 
 
   -- Required instruction memory signals
   signal s_IMemAddr     : std_logic_vector(N-1 downto 0); -- Do not assign this signal, assign to s_NextInstAddr instead
-  signal s_NextInstAddr : std_logic_vector(N-1 downto 0); -- TODO: use this signal as your intended final instruction memory address input.
-  signal s_Inst         : std_logic_vector(N-1 downto 0); -- TODO: use this signal as the instruction signal 
+  signal s_NextInstAddr : std_logic_vector(N-1 downto 0); 
+  signal s_Inst         : std_logic_vector(N-1 downto 0);  
 
   -- Required halt signal -- for simulation
   signal s_Halt         : std_logic;  
@@ -243,7 +243,7 @@ signal muxtemp : std_logic_vector(4 downto 0);
 
 begin
 
-  -- TODO: This is required to be your final input to your instruction memory. This provides a feasible method to externally load the memory module which means that the synthesis tool must assume it knows nothing about the values stored in the instruction memory. If this is not included, much, if not all of the design is optimized out because the synthesis tool will believe the memory to be all zeros.
+  -- This is required to be your final input to your instruction memory. This provides a feasible method to externally load the memory module which means that the synthesis tool must assume it knows nothing about the values stored in the instruction memory. If this is not included, much, if not all of the design is optimized out because the synthesis tool will believe the memory to be all zeros.
   with iInstLd select
     s_IMemAddr <= s_NextInstAddr when '0',
       iInstAddr when others;
@@ -266,8 +266,7 @@ begin
              data => s_DMemData,
              we   => s_DMemWr,
              q    => s_DMemOut);
-
-  -- TODO: Implement the rest of your processor below this comment! 
+-- Our Implementation --
 
 mux_RegDest: mux2t1_5
 port map(i_S => s_RegDest,
@@ -312,18 +311,15 @@ alu_1: alu
         i_B        => s_Mux_ALU,
         i_ALUOp    => s_ALU_Operation,
         i_shamt    => s_Inst(10 downto 6),
-        o_F        => oALUOut,
+        o_F        => s_ALU_Result,
         o_Zero     => s_ALU_Zero,
         o_Overflow => s_ALU_Ovfl
     );
 
-    s_Ovfl <= s_ALU_Ovfl AND NOT(s_Branch);
-    s_DMemAddr <= s_ALU_Result;
-    s_ALU_Result    <= oALUOut;
-
-process (s_Branch_En, s_ALU_Zero) begin
-s_Branch_En <= (s_Branch and s_ALU_Zero);
-end process;
+    s_Ovfl 	<= s_ALU_Ovfl AND NOT(s_Branch);
+    s_DMemAddr  <= s_ALU_Result;
+    oALUOut 	<= s_ALU_Result;
+    s_Branch_En <= (s_Branch and s_ALU_Zero);
 
 fetch_component: fetch_logic
 port map(
