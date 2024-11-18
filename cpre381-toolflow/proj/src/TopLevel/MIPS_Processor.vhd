@@ -577,7 +577,7 @@ EX_MEM_Reg_inst: EX_MEM_Reg
     i_JAL => s_EX_JAL,
     i_ALUZero => s_ALU_Zero,
     i_MemData => s_EX_RegData1,
-    i_ALUOut => oALUOut,
+    i_ALUOut => s_ALU_Result,
         i_Stall => s_EXMEM_Stall,
         i_Flush => s_EXMEM_Flush,
     i_Imm => s_EX_Imm,
@@ -595,6 +595,8 @@ EX_MEM_Reg_inst: EX_MEM_Reg
     o_Ovfl => s_MEM_Ovfl,
     o_Halt => s_MEM_Halt
 );
+
+oALUOut <= s_ALU_Result;
 --MEM Stage
 
 process (s_MEM_Branch_En, s_MEM_ALU_Zero) begin
