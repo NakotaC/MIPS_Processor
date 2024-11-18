@@ -595,8 +595,6 @@ EX_MEM_Reg_inst: EX_MEM_Reg
     o_Ovfl => s_MEM_Ovfl,
     o_Halt => s_MEM_Halt
 );
-
-oALUOut <= s_ALU_Result;
 --MEM Stage
 
 process (s_MEM_Branch_En, s_MEM_ALU_Zero) begin

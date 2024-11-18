@@ -1,0 +1,97 @@
+
+#
+# CprE 381 toolflow Timing dump
+#
+
+FMax: 62.64mhz Clk Constraint: 20.00ns Slack: 4.04ns
+
+The path is given below
+
+ ===================================================================
+ From Node    : mem:IMem|altsyncram:ram_rtl_0|altsyncram_eg81:auto_generated|ram_block1a11~porta_we_reg
+ To Node      : fetch_logic:fetch_component|s_PC[26]
+ Launch Clock : iCLK
+ Latch Clock  : iCLK
+ Data Arrival Path:
+ Total (ns)  Incr (ns)     Type  Element
+ ==========  ========= ==  ====  ===================================
+      0.000      0.000           launch edge time
+      3.441      3.441  R        clock network delay
+      3.704      0.263     uTco  mem:IMem|altsyncram:ram_rtl_0|altsyncram_eg81:auto_generated|ram_block1a11~porta_we_reg
+      6.553      2.849 FR  CELL  IMem|ram_rtl_0|auto_generated|ram_block1a11|portadataout[5]
+      7.322      0.769 RR    IC  IMem|ram~61|datad
+      7.477      0.155 RR  CELL  IMem|ram~61|combout
+      9.812      2.335 RR    IC  regFile|Mux1|Mux28~4|dataa
+     10.209      0.397 RR  CELL  regFile|Mux1|Mux28~4|combout
+     11.326      1.117 RR    IC  regFile|Mux1|Mux28~5|datad
+     11.481      0.155 RR  CELL  regFile|Mux1|Mux28~5|combout
+     12.441      0.960 RR    IC  regFile|Mux1|Mux28~8|datad
+     12.596      0.155 RR  CELL  regFile|Mux1|Mux28~8|combout
+     12.830      0.234 RR    IC  regFile|Mux1|Mux28~19|datab
+     13.264      0.434 RF  CELL  regFile|Mux1|Mux28~19|combout
+     14.908      1.644 FF    IC  fetch_component|Add1~2|dataa
+     15.406      0.498 FR  CELL  fetch_component|Add1~2|cout
+     15.406      0.000 RR    IC  fetch_component|Add1~4|cin
+     15.472      0.066 RF  CELL  fetch_component|Add1~4|cout
+     15.472      0.000 FF    IC  fetch_component|Add1~6|cin
+     15.538      0.066 FR  CELL  fetch_component|Add1~6|cout
+     15.538      0.000 RR    IC  fetch_component|Add1~8|cin
+     15.604      0.066 RF  CELL  fetch_component|Add1~8|cout
+     15.604      0.000 FF    IC  fetch_component|Add1~10|cin
+     15.670      0.066 FR  CELL  fetch_component|Add1~10|cout
+     15.670      0.000 RR    IC  fetch_component|Add1~12|cin
+     15.736      0.066 RF  CELL  fetch_component|Add1~12|cout
+     15.736      0.000 FF    IC  fetch_component|Add1~14|cin
+     15.802      0.066 FR  CELL  fetch_component|Add1~14|cout
+     15.802      0.000 RR    IC  fetch_component|Add1~16|cin
+     15.868      0.066 RF  CELL  fetch_component|Add1~16|cout
+     15.868      0.000 FF    IC  fetch_component|Add1~18|cin
+     15.934      0.066 FR  CELL  fetch_component|Add1~18|cout
+     15.934      0.000 RR    IC  fetch_component|Add1~20|cin
+     16.000      0.066 RF  CELL  fetch_component|Add1~20|cout
+     16.000      0.000 FF    IC  fetch_component|Add1~22|cin
+     16.066      0.066 FR  CELL  fetch_component|Add1~22|cout
+     16.066      0.000 RR    IC  fetch_component|Add1~24|cin
+     16.132      0.066 RF  CELL  fetch_component|Add1~24|cout
+     16.132      0.000 FF    IC  fetch_component|Add1~26|cin
+     16.198      0.066 FR  CELL  fetch_component|Add1~26|cout
+     16.198      0.000 RR    IC  fetch_component|Add1~28|cin
+     16.264      0.066 RF  CELL  fetch_component|Add1~28|cout
+     16.264      0.000 FF    IC  fetch_component|Add1~30|cin
+     16.330      0.066 FR  CELL  fetch_component|Add1~30|cout
+     16.330      0.000 RR    IC  fetch_component|Add1~32|cin
+     16.396      0.066 RF  CELL  fetch_component|Add1~32|cout
+     16.396      0.000 FF    IC  fetch_component|Add1~34|cin
+     16.462      0.066 FR  CELL  fetch_component|Add1~34|cout
+     16.462      0.000 RR    IC  fetch_component|Add1~36|cin
+     16.528      0.066 RF  CELL  fetch_component|Add1~36|cout
+     16.528      0.000 FF    IC  fetch_component|Add1~38|cin
+     16.594      0.066 FR  CELL  fetch_component|Add1~38|cout
+     16.594      0.000 RR    IC  fetch_component|Add1~40|cin
+     16.660      0.066 RF  CELL  fetch_component|Add1~40|cout
+     16.660      0.000 FF    IC  fetch_component|Add1~42|cin
+     16.726      0.066 FR  CELL  fetch_component|Add1~42|cout
+     16.726      0.000 RR    IC  fetch_component|Add1~44|cin
+     16.792      0.066 RF  CELL  fetch_component|Add1~44|cout
+     16.792      0.000 FF    IC  fetch_component|Add1~46|cin
+     16.858      0.066 FR  CELL  fetch_component|Add1~46|cout
+     16.858      0.000 RR    IC  fetch_component|Add1~48|cin
+     17.394      0.536 RR  CELL  fetch_component|Add1~48|combout
+     18.358      0.964 RR    IC  fetch_component|s_next_PC[26]~24|datad
+     18.513      0.155 RR  CELL  fetch_component|s_next_PC[26]~24|combout
+     18.717      0.204 RR    IC  fetch_component|s_next_PC[26]~25|datad
+     18.856      0.139 RF  CELL  fetch_component|s_next_PC[26]~25|combout
+     18.856      0.000 FF    IC  fetch_component|s_PC[26]|d
+     18.960      0.104 FF  CELL  fetch_logic:fetch_component|s_PC[26]
+ Data Required Path:
+ Total (ns)  Incr (ns)     Type  Element
+ ==========  ========= ==  ====  ===================================
+     20.000     20.000           latch edge time
+     22.965      2.965  R        clock network delay
+     22.997      0.032           clock pessimism removed
+     22.977     -0.020           clock uncertainty
+     22.995      0.018     uTsu  fetch_logic:fetch_component|s_PC[26]
+ Data Arrival Time  :    18.960
+ Data Required Time :    22.995
+ Slack              :     4.035
+ ===================================================================
