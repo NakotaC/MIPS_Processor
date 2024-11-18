@@ -26,12 +26,12 @@ entity EX_MEM_Reg is
       i_ALUZero          :in std_logic;
       i_Flush         :in std_logic;
       i_Stall        :in std_logic;
-
        i_ALUOut          : in std_logic_vector(N-1 downto 0);
       i_JAL : in std_logic;
+      i_Imm : in std_logic_vector(31 downto 0);
+      o_Imm : out std_logic_vector(31 downto 0);
       o_JAL :out std_logic;
        o_PC          : out std_logic_vector(N-1 downto 0); 
-
        o_ALUOut          : out std_logic_vector(N-1 downto 0);
        o_RegWr          : out std_logic;  
        o_MemtoReg          : out std_logic;
@@ -176,5 +176,17 @@ ALUOut_Reg: n_reg
     i_WE => s_we,
     i_D => i_ALUOut,
     o_Q => o_ALUOut
+);
+
+Imm_reg: n_reg
+ generic map(
+    N => 32
+)
+ port map(
+    i_CLK => i_CLK,
+    i_RST => i_RST,
+    i_WE => s_we,
+    i_D => i_Imm,
+    o_Q => o_Imm
 );
 end structural;

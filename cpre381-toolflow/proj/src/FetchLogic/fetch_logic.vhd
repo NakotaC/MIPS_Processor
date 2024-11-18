@@ -48,11 +48,11 @@ begin
     s_PC_plus_4 <= std_logic_vector(unsigned(s_PC) + 4);
 
     -- Next PC selection
-    process(s_PC, s_PC_plus_4, i_branch_en, i_jump_en, i_jr_en, i_branch_addr, i_jump_addr, i_jr_addr, s_shifted_branch)
+    process(s_PC, s_PC_plus_4, i_branch_en, i_jump_en, i_jr_en, i_branch_addr, i_jump_addr, i_jr_addr, s_shifted_branch, i_pipelined_PC)
     begin
 	s_shifted_branch <= x"00000000";
         if i_jr_en = '1' then
-            s_next_PC <= i_jr_addr;
+            s_next_PC <= std_logic_vector(unsigned(i_jr_addr) + 4);
         elsif i_jump_en = '1' then
             -- Combine upper 4 bits of PC+4 with jump address and 00
             s_next_PC <= s_PC_plus_4(31 downto 28) & i_jump_addr & "00";

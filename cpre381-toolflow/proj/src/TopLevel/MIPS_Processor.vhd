@@ -232,12 +232,12 @@ component EX_MEM_Reg is
       i_ALUZero          :in std_logic;
       i_Flush         :in std_logic;
       i_Stall        :in std_logic;
-
        i_ALUOut          : in std_logic_vector(N-1 downto 0);
       i_JAL : in std_logic;
+      i_Imm : in std_logic_vector(31 downto 0);
+      o_Imm : out std_logic_vector(31 downto 0);
       o_JAL :out std_logic;
        o_PC          : out std_logic_vector(N-1 downto 0); 
-
        o_ALUOut          : out std_logic_vector(N-1 downto 0);
        o_RegWr          : out std_logic;  
        o_MemtoReg          : out std_logic;
@@ -248,8 +248,6 @@ component EX_MEM_Reg is
       o_Halt          :out std_logic;
        o_MEMData          : out std_logic_vector(N-1 downto 0);
       o_ALUZero          :out std_logic
-
-
        );
 end component;
 
@@ -281,25 +279,6 @@ component MEM_WB_Reg is
 
 
        );
-end component;
-
-component branch_logic is
-  port (
-      i_Branch    : in std_logic;
-      i_Opcode    : in std_logic_vector(5 downto 0);
-      i_RegData1  : in std_logic_vector(31 downto 0);
-      i_RegData2  : in std_logic_vector(31 downto 0);
-      o_Branch_Take : out std_logic);
-end component;
-
-component hazard_detection is
-  port(
-      i_Branch      : in std_logic;
-      i_Jump        : in std_logic;
-      i_JumpReg     : in std_logic;
-      i_Branch_Take : in std_logic;
-      o_IF_Flush    : out std_logic;
-      o_IF_ID_Flush : out std_logic);
 end component;
 
 --Signals for the data controlling the regFile and the data coming out of it
@@ -446,7 +425,7 @@ port map(
        i_jump_en	=> s_Jump,
        i_jr_en 		=> s_Jump_Return,
        i_branch_addr 	=> s_MEM_Imm,
-       i_jump_addr 	=> s_Inst(25 downto 0),
+       i_jump_addr 	=> s_ID_Inst(25 downto 0),
        i_jr_addr 	=> s_RegOut1,
        i_pipelined_PC => s_MEM_PC,
        o_PC 		=> s_NextInstAddr,
@@ -502,23 +481,6 @@ control_component: control_logic
         o_ALUSrc   => s_ALUSrc,
         o_RegWrite => s_ID_RegWr,
         o_Halt     => s_ID_halt);
-
-branch_logic_inst: branch_logic
-    port map(
-        i_Branch    => s_Branch,
-        i_Opcode    => s_ID_Inst(31 downto 26),
-        i_RegData1  => s_RegOut1,
-        i_RegData2  => s_RegOut2,
-        o_Branch_Take => s_Fetch_Branch_En);
-
-hazard_detection_inst: hazard_detection
-    port map(
-        i_Branch      => s_Branch,
-        i_Jump        => s_Jump,
-        i_JumpReg     => s_Jump_Return,
-        i_Branch_Take => s_Fetch_Branch_En,
-        o_IF_Flush    => s_IF_Flush,
-        o_IF_ID_Flush => s_IFID_Flush);        
 
 ID_EX_Reg_inst: ID_EX_Reg
  port map(
@@ -618,14 +580,16 @@ EX_MEM_Reg_inst: EX_MEM_Reg
     i_ALUOut => oALUOut,
         i_Stall => s_EXMEM_Stall,
         i_Flush => s_EXMEM_Flush,
+    i_Imm => s_EX_Imm,
+    o_Imm => s_MEM_Imm,
     o_ALUOut => s_MEM_ALUOut,
     o_MemData => s_MEM_RegData1,
-    o_ALUZero => s_MEM_ALUZero,
+    o_ALUZero => s_MEM_ALU_Zero,
     o_JAL => s_MEM_JAL,
     o_PC => s_MEM_PC,
     o_RegWr => s_MEM_RegWr,
     o_MemtoReg => s_MEM_MemtoReg,
-    o_BranchEn => s_MEM_BranchEn,
+    o_BranchEn => s_MEM_Branch_En,
     o_MemWr => s_DMemWr,
     o_WrAddr => s_MEM_WrAddr,
     o_Ovfl => s_MEM_Ovfl,
